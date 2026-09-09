@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blank Screen</title>
+  
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* The timer is faint so you can still stare at the screen */
+    .timer-container {
+      text-align: center;
+      opacity: 0.15; 
+      transition: opacity 0.3s ease;
+    }
+
+    .timer-container:hover {
+      opacity: 0.8;
+    }
+
+    #time-display {
+      font-size: 80px;
+      font-weight: 700;
+      color: #2b2b2b;
+      margin: 0;
+    }
+
+    .label {
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7f8c8d;
+      margin-top: 10px;
+    }
+
+    /* Achievement Pop-up Banner Styles */
+    .achievement-popup {
+      position: fixed;
+      top: -100px;
+      background-color: #2b2b2b;
+      color: #ffffff;
+      padding: 15px 30px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 0px #f7d070;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 999;
+    }
+
+    .achievement-popup.show {
+      top: 30px;
+    }
+
+    .achievement-icon {
+      font-size: 30px;
+    }
+
+    .achievement-title {
+      font-size: 14px;
+      color: #f7d070;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 🏠 THE PERMANENTLY VISIBLE HOME BUTTON STYLES */
+    .home-link {
+      position: fixed;
+      bottom: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      color: #7f8c8d;
+      border: 2px solid #7f8c8d;
+      padding: 8px 20px;
+      border-radius: 8px;
+      opacity: 1; /* Always visible */
+      transition: all 0.3s ease;
+    }
+
+    .home-link:hover {
+      color: #2b2b2b;
+      border-color: #2b2b2b;
+      background-color: #f0f3f4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Achievement Structure -->
+  <div id="badge-popup" class="achievement-popup">
+    <div class="achievement-icon" id="badge-icon">🏆</div>
+    <div>
+      <div class="achievement-title">Achievement Unlocked!</div>
+      <div id="badge-text">You did something!</div>
+    </div>
+  </div>
+
+  <!-- Timer Structure -->
+  <div class="timer-container">
+    <div id="time-display">00:00</div>
+    <div class="label">Time Spent Staring</div>
+  </div>
+
+  <!-- 🎯 CORRECTED LINK: Points directly to TheUselessWebsite.html -->
+  <a href="TheUselessWebsite.html" class="home-link">↩ Go Back Home</a>
+
+  <!-- Script Engine Logic -->
+  <script>
+    let totalSeconds = 0;
+
+    let unlocked = {
+      tenSecs: false,
+      thirtySecs: false,
+      oneMin: false
+    };
+
+    function updateTimer() {
+      totalSeconds++;
+      
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+
+      let displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+      let displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+      document.getElementById("time-display").innerText = displayMinutes + ":" + displaySeconds;
+
+      if (totalSeconds === 10 && !unlocked.tenSecs) {
+        triggerAchievement("👀 The First Blink", "🔲");
+        unlocked.tenSecs = true;
+      } 
+      else if (totalSeconds === 30 && !unlocked.thirtySecs) {
+        triggerAchievement("🧘 Absolute Zen Master", "🧘");
+        unlocked.thirtySecs = true;
+      } 
+      else if (totalSeconds === 60 && !unlocked.oneMin) {
+        triggerAchievement("🛑 Is your monitor broken?", "🖥️");
+        unlocked.oneMin = true;
+      }
+    }
+
+    function triggerAchievement(text, icon) {
+      let popup = document.getElementById("badge-popup");
+      document.getElementById("badge-text").innerText = text;
+      document.getElementById("badge-icon").innerText = icon;
+
+      popup.classList.add("show");
+
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 4000);
+    }
+
+    setInterval(updateTimer, 1000);
+  </script>
+
+</body>
+</html>

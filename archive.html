@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Archive - Files</title>
+  
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #7f8c8d, #34495e); 
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #2b2b2b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* 🖥️ VINTAGE MONITOR CONTAINER */
+    .os-window {
+      background-color: #ecf0f1;
+      border: 4px solid #2b2b2b;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0px 12px 0px #2b2b2b;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    /* Top Bar of the file explorer window */
+    .os-topbar {
+      background-color: #2b2b2b;
+      color: #ffffff;
+      padding: 10px 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .os-title {
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 18px;
+    }
+
+    .os-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #bdc3c7;
+    }
+
+    /* Main split-screen panel file workspace */
+    .os-workspace {
+      display: flex;
+      height: 350px;
+    }
+
+    /* Left Sidebar: Folder Navigation Tree */
+    .sidebar {
+      width: 35%;
+      background-color: #d5dbdb;
+      border-right: 3px solid #2b2b2b;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* Clickable Folder System UI */
+    .folder-btn {
+      background: none;
+      border: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2b2b2b;
+      text-align: left;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .folder-btn:hover, .folder-btn.active {
+      background-color: #bdc3c7;
+    }
+
+    /* Right Main Window: Document Content Inspector Screen */
+    .viewer-panel {
+      width: 65%;
+      background-color: #ffffff;
+      padding: 25px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .file-header {
+      font-size: 14px;
+      color: #7f8c8d;
+      border-bottom: 2px dashed #bdc3c7;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    /* Code Terminal Monospace font display font */
+    .file-content {
+      font-family: 'Courier Prime', monospace;
+      font-size: 16px;
+      color: #2c3e50;
+      line-height: 1.5;
+      white-space: pre-line; /* Preserves text line breaks neatly */
+    }
+
+    .home-link {
+      position: fixed;
+      bottom: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      background-color: rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .home-link:hover {
+      background-color: #ffffff;
+      color: #34495e;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- The Interactive File Explorer Simulation Desktop Box -->
+  <div class="os-window">
+    <div class="os-topbar">
+      <div class="os-title">Useless File Explorer v1.0</div>
+      <div class="os-dots">
+        <div class="dot" style="background-color: #e74c3c;"></div>
+        <div class="dot" style="background-color: #f1c40f;"></div>
+        <div class="dot" style="background-color: #2ecc71;"></div>
+      </div>
+    </div>
+
+    <div class="os-workspace">
+      <!-- 📁 SIDEBAR DIRECTORY LINK SELECTORS -->
+      <nav class="sidebar">
+        <button class="folder-btn active" onclick="openFolder('system')">📁 system_core</button>
+        <button class="folder-btn" onclick="openFolder('layouts')">📁 old_layouts</button>
+        <button class="folder-btn" onclick="openFolder('media')">📁 trash_media</button>
+      </nav>
+
+      <!-- 📄 FILE CONTENT CONTENT VIEWER SCREEN -->
+      <main class="viewer-panel">
+        <div class="file-header" id="current-file-path">system_core / readme.txt</div>
+        <div class="file-content" id="display-screen">
+          Welcome Operator! 
+          You are currently accessing the core database records. 
+          
+          Select a system registry folder on the left side tree list layout structure to scan deleted local text arrays.
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <a href="TheUselessWebsite.html" class="home-link">↩ Go Back Home</a>
+
+  <!-- 3. SIMULATED FILE SYSTEM REGISTRY STORAGE MECHANISM -->
+  <script>
+    // Storage object array mimicking document data banks
+    const fileDatabase = {
+      system: {
+        path: "system_core / database_log.log",
+        text: "> STATUS: ONLINE \n> ERROR COUNT: 0 \n> USELESS EMPIRE STATUS: STABLE \n\nLog Entry 104: Webbies discovered the directory loop system. Everything running completely smoothly inside the code frame matrix partitions."
+      },
+      layouts: {
+        path: "old_layouts / backup_typo.html",
+        text: "<!DOCTYPE html> \n<html>\n<title>TheUselessWebstie</title>\n\n/* CRITICAL LOG: This file text was completely vaporized because of an epic spelling mismatch in 'Website'. Kept here as a historical monument. */"
+      },
+      media: {
+        path: "trash_media / broken_links.txt",
+        text: "🚨 SYSTEM BROKEN WARNING \n\n[Img Link 404]: blank-banner.jpg -> Not found \n[Img Link 404]: life-banner.jpg -> Not found \n\nAction taken: Images completely tossed into the recycling bin. Replaced by pure, superior CSS block code styles!"
+      }
+    };
+
+    function openFolder(folderName) {
+      // 1. Remove the gray highlight from whatever folder button was clicked previously
+      let buttons = document.querySelectorAll('.folder-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // 2. Add the highlight to our newly active folder target click
+      event.currentTarget.classList.add('active');
+
+      // 3. Extract matching database text properties and update screen container blocks
+      const selectedFile = fileDatabase[folderName];
+      document.getElementById("current-file-path").innerText = selectedFile.path;
+      document.getElementById("display-screen").innerText = selectedFile.text;
+    }
+  </script>
+
+</body>
+</html>
